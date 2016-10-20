@@ -16,11 +16,7 @@ Ext.define('Estratificacion.controller.user.Sesion', {
 		});
 	},
 	cerraSesion: function(btn, e, eOpts) {
-		sessionStorage.removeItem("LoggedIn");
-		var sessionProvider = Ext.state.Manager.getProvider()
-		for (var sP in sessionProvider.state) {
-			Ext.state.Manager.clear(sP);
-		}
+		Global.deleteCookies();
 		self.location = 'index.html';
 
 	},

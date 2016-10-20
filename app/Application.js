@@ -86,13 +86,13 @@ Ext.define('Estratificacion.Application', {
 			prefix: ''
 		}));
 
-		var loggedIn;
+		var loggedIn, token;
 
-		loggedIn = Ext.state.Manager.get('isUserLoggedIn');
+		loggedIn = Global.setValueFromCookie('isLoggedUserAUser');
+		token = Global.setValueFromCookie('token');
 
-		//console.log(loggedIn);
 
-		Ext.widget(loggedIn ? 'main' : 'login');
+		Ext.widget(loggedIn != "" && token!= "" ? 'main' : 'login');
 
 	}
 

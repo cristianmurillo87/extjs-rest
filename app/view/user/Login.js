@@ -53,56 +53,58 @@ Ext.define('Estratificacion.view.user.Login', {
 					var vals = form.getValues();
 
 					if (form.isValid()) {
-						Ext.Ajax.request({
-							url: 'http://172.18.10.127:9000/laravel/public/api/authenticate?usuario='+vals.usuario+'&password='+vals.password,
-							headers: { 'Content-Type': 'application/json' },
-							method: 'POST',
-							success: function(response) {
-								var data = Ext.JSON.decode(response.responseText);
-								var token = data.token;
-
-								if (token) {
-									Ext.state.Manager.set('isUserLoggedIn', true);
-									Ext.state.Manager.set('token', token);
-									/*Ext.state.Manager.set('isUserLoggedIn', true);
-									Ext.state.Manager.set('LoggedUserName', data.message.nom_usuario);
-									Ext.state.Manager.set('LoggedUserNameName', data.message.nombre);
-									Ext.state.Manager.set('LoggedUserNameLastName', data.message.apellido);
-									Ext.state.Manager.set('isLoggedUserAdmin', data.message.administra);
-									Ext.state.Manager.set('canLoggedUserQuery', data.message.consulta);
-									Ext.state.Manager.set('isLoggedUserAUser', data.message.usuario);
+						
+						var getUser = function(token){
+							$.ajax({
+								url: Global.config['restUrl'] + 'authenticate/user',
+								type:'GET',
+								dataType:'json',
+								data:{"token": token},
+								success:function(data, status, jqXHR){
+									document.cookie = "loggedUserName=" + data.user.usuario;
+									document.cookie = "loggedUserNameName=" + data.user.nombre;
+									document.cookie ="loggedUserNameLastName=" + data.user.apellido;
+									document.cookie = "loggedUserId=" + data.user.id;
+									document.cookie ="isLoggedUserAdmin=" + data.user.roles.administrar;
+									document.cookie ="canLoggedUserQuery=" + data.user.roles.consultar;
+									document.cookie ="isLoggedUserAUser=" + data.user.roles.ver;
 
 									w.getEl().fadeOut({
 										duration: 250,
 										remove: false,
 										useDisplay: false,
 										callback: function() {
-											Global.setUser('usuario', data.message.nom_usuario);
-											Global.set('nombre', data.message.nombre);
-											Global.set('apellido', data.message.apellido);
-											Global.set('administrar', data.message.administra);
-											Global.set('consultar', data.message.consulta);
-											Global.set('ver', data.message.usuario);
+											Global.set('usuario', data.user.usuario);
+											Global.set('nombre', data.user.nombre);
+											Global.set('apellido', data.user.apellido);
+											Global.set('id', data.user.id);							
+											Global.set('administrar', data.user.roles.administrar);
+											Global.set('consultar', data.user.roles.consultar);
+											Global.set('ver', data.user.roles.ver);
 											w.close();
 											Ext.create('Estratificacion.view.main.Viewport');
 										}
-									});*/
-
-								} else {
-									Ext.Msg.show({
-										title: 'Error',
-										msg: data.error,
-										buttons: Ext.Msg.OK,
-										icon: Ext.Msg.ERROR
 									});
 
 								}
+							});
+						}
+
+						$.ajax({
+							url:Global.config['restUrl'] + 'authenticate',
+							type:'POST',
+							dataType:'json',
+							data:{"usuario":vals.usuario, "password": vals.password},
+							success:function(data, status, jqXHR){
+								document.cookie = "token=" + data.token;
+								getUser(data.token);
+
+
 							},
-							failure: function(response) {
-								var data = Ext.JSON.decode(response.responseText);
+							error:function(jqXHR, status, error){
 								Ext.Msg.show({
 									title: 'Error',
-									msg: data.error,
+									msg: "Usuario y/o contraseña invalidos",
 									buttons: Ext.Msg.OK,
 									icon: Ext.Msg.ERROR
 								});

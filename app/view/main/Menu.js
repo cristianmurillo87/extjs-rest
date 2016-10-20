@@ -88,13 +88,13 @@ Ext.define('Estratificacion.view.main.Menu', {
 			var eliminalado = Ext.ComponentQuery.query('#op-eliminalado')[0];
 			var eliminatipica = Ext.ComponentQuery.query('#op-eliminatipica')[0];
 
-			var loggedUser = Ext.state.Manager.get('LoggedUserNameName') + " " + Ext.state.Manager.get('LoggedUserNameLastName');
+			var loggedUser = Global.setValueFromCookie('loggedUserNameName') + " " + Global.setValueFromCookie('loggedUserNameLastName');
 
-			agregatipica.disabled = !Ext.state.Manager.get('isLoggedUserAdmin');
-			agregalado.disabled = !Ext.state.Manager.get('isLoggedUserAdmin');
-			modificaterreno.disabled = !Ext.state.Manager.get('isLoggedUserAdmin');
-			eliminalado.disabled = !Ext.state.Manager.get('isLoggedUserAdmin');
-			eliminatipica.disabled = !Ext.state.Manager.get('isLoggedUserAdmin');
+			agregatipica.disabled = !Global.isAdmin();
+			agregalado.disabled = !Global.isAdmin();
+			modificaterreno.disabled = !Global.isAdmin();
+			eliminalado.disabled = !Global.isAdmin();
+			eliminatipica.disabled = !Global.isAdmin();
 			username.text = loggedUser;
 
 		}
