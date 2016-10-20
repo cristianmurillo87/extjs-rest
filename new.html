@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>Click the button to display the array values after the split.</p>
+
+<button onclick="myFunction('4875,8,9,90')">Try it</button>
+
+<p id="demo"></p>
+
+<script>
+function myFunction(n) {
+    //var str = n.toString();
+    var res = n.split(",");
+
+var t="";
+var p = "P1090", a;
+var i =0;
+var arr = new Array(res.length);
+
+for (var j=0;j<res.length;j++){
+var a=res[j].length;
+
+if (a==1){
+arr[j]="000"+res[j];
+}
+else if(a==2){
+arr[j]="00"+res[j];
+}
+else if(a==3){
+arr[j]="0"+res[j];
+}
+else{
+arr[j]=res[j];
+}
+}
+
+while (i<arr.length-1){
+t += t+p+arr[i]+".JPG, ";
+i++;
+}
+
+t = t+p+arr[i]+".JPG";
+    document.getElementById("demo").innerHTML = t;
+}
+
+
+</script>
+
+</body>
+</html>

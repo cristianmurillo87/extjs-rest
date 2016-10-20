@@ -1,0 +1,179 @@
+.gridCss .x-column-header-inner{
+    text-align:center;
+ }
+
+/*.control-pan{
+	background-image: url(../images/pan.png) !important;
+}*/
+
+.max-extent{
+	background-image: url(../images/world.png) !important;
+}
+
+.zoombox{
+	background-image: url(../images/magnifier.png) !important;
+}
+
+.zoomin{
+	background-image: url(../images/magnifier_zoom_in.png) !important;
+}
+
+.zoomout{
+	background-image: url(../images/magnifier_zoom_out.png) !important;
+}
+
+.zoomprev{
+	background-image: url(../images/history-left-icon.png) !important;
+}
+
+.zoomnext{
+	background-image: url(../images/history-right-icon.png) !important;
+}
+
+.measure-lenght{
+	background-image: url(../images/measure.png) !important;
+}
+
+.infotool{
+	background-image: url(../images/information-2.png) !important;
+}
+
+.measure-area{
+	background-image: url(../images/select.png) !important;
+}
+
+.query{
+	background-image: url(../images/database_connect.png) !important;
+}
+
+.admin{
+	background-image: url(../images/cog_go.png) !important;
+}
+
+.user{
+	background-image: url(../images/user.png) !important;
+}
+
+.user-add{
+	background-image: url(../images/user_add.png) !important;
+}
+
+.user-delete{
+	background-image: url(../images/user_delete.png) !important;
+}
+
+.user-edit{
+	background-image: url(../images/user_edit.png) !important;
+}
+
+.terreno{
+	background-image: url(../images/shape_handles.png) !important;
+}
+
+.predio{
+	background-image: url(../images/application.png) !important;
+}
+
+.lado{
+	background-image: url(../images/table.png) !important;
+}
+
+.atipico{
+	background-image: url(../images/layout.png) !important;
+}
+
+.buscar{
+	background-image: url(../images/find.png) !important;
+}
+
+.borrar{
+	background-image: url(../images/delete.png) !important;
+}
+
+.grafico{
+	background-image: url(../images/user_statistics.png) !important;
+}
+
+.select{
+	background-image: url(../images/select.png) !important;
+}
+.mylabel {
+            font-weight: normal;
+            color: black;
+
+
+}
+.clear-selected{
+	background-image: url(../images/recycle_bin.png) !important;
+}
+
+.pegman{
+   background-image:url(../images/pegman.gif) !important;
+}
+
+.login{
+   background-image:url(../images/key_go.png) !important;
+}
+
+.reset{
+   background-image:url(../images/cancel.png) !important;
+}
+
+.data{
+	background-image:url(../images/icon-layers.jpg) !important;
+}
+
+.box{
+	background-image:url(../images/dataset.png) !important;
+}
+
+.cliente{
+	background-image:url(../images/vcard.png) !important;
+}
+
+.terreno{
+	background-image:url(../images/parcel.png) !important;
+}
+
+.casa{
+	background-image:url(../images/home.png) !important;
+}
+
+.manzana{
+	background-image:url(../images/box.png) !important;
+}
+
+.lado{
+	background-image:url(../images/resultset_next.png) !important;
+}
+
+.infoventana .x-window-body{
+    background-color:rgb(248,248,248);
+    font-weight: bold;
+}
+
+.tree-node {
+  font-weight: bold;
+}
+
+.left-right-buttons .x-panel-btns {
+    text-align: 'center'
+}
+
+.left-right-buttons .x-panel-btns table {
+    width: 100%;
+}
+
+.left-right-buttons .x-panel-btns .x-btn-left {
+    float: left;
+}
+/*font-face {
+  font-family : 'FontAwesome';
+  src         : url('../fonts/font-awesome/fonts/fontawesome-webfont.eot?32940503');
+  src         : url('../fonts/font-awesome/fonts/fontawesome-webfont.eot?32940503#iefix') 
+        format('embedded-opentype'), url('../fonts/font-awesome/fonts/fontawesome-webfont.woff?32940503') 
+        format('woff'), url('../fonts/font-awesome/fonts/fontawesome-webfont.ttf?32940503') format('truetype'), 
+        url('../fonts/font-awesome/fonts/fontawesome-webfont.svg?32940503#FontAwesome') format('svg');
+  font-weight : normal;
+  font-style  : normal;
+}*/

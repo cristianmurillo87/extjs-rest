@@ -1,0 +1,9 @@
+$tab-color: #000 !default;
+$tab-base-color-active:$panel-body-background-color !default;
+$tab-base-color: lighten(#75A9D9, 10%) !default;
+$tab-base-color-over: lighten($tab-base-color, 10%) !default;
+$tab-color-over: #000 !default;
+$tab-color-active: #000 !default;
+$tab-border-radius: 0 4px 0 0 !default;
+$tab-border-color: #75A9D9 !default;
+$tab-padding: 5px 10px !default;

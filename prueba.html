@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Pruebas ExtJS</title>
+		<meta name="author" content="Cristian Murillo" />
+		<!-- Date: 2014-09-29 -->
+		<!--link rel="stylesheet" type="text/css" href="lib/ext/resources/cris-theme/cris-theme.css"-->
+		<link rel="stylesheet" type="text/css" href="lib/ext/resources/css/ext-all-gray.css">
+        <link rel="stylesheet" type="text/css" href="resources/fonts/font-awesome/css/font-awesome.min.css"> 	
+		<link rel="stylesheet" type="text/css" href="resources/css/app.css">
+		<script type="text/javascript" src="lib/ext/ext-all-dev.js"></script>
+		<script type="text/javascript" src="lib/openlayers/OpenLayers.js"></script>
+		<script type="text/javascript" src="app/Validadores.js"></script>
+		<style type="text/css">
+			.blue-label label {
+        	color: #0000A0;/*#0B0B3B*/
+        	font-weight: bold;
+        	font-size: 0.9em;
+
+    		}
+			.black-label label {
+        	color: #000000;/*#0B0B3B*/
+        	font-weight: bold;
+        	font-size: 0.9em;
+
+    		}
+		</style>
+	</head>
+	<body>
+
+	</body>
+<script type="text/javascript">	
+
+
+</script>
+
+
+	<script type="text/javascript">
+	
+Ext.onReady(function(){
+	Ext.QuickTips.init();
+	Ext.define('Estratificacion.view.Login',{
+    extend:'Ext.window.Window',
+    alias:'widget.login',
+    requires:[
+        'Ext.button.Button',
+        'Ext.form.Panel',
+        'Ext.form.field.Text',
+    ],
+    autoShow:true,
+    width:300,
+    height:150,
+    modal:true,
+    closable:false,
+    title:'Iniciar Sesi&oacuten',
+    glyph:'xf007@FontAwesome',
+    layout:'fit',
+    items:[
+        {
+            xtype: 'form',
+            items:[
+                {
+                    xtype:'textfield',
+                    anchor:'95%',
+                    fieldLabel:'Usuario',
+                    name:'usuario',
+                    allowBlank:false,
+					margin: '10 10 10 10'
+                },
+                {
+                    xtype:'textfield',
+                    inputType:'password',
+                    anchor: '95%',
+					margin: '5 10 10 10',
+                    fieldLabel: 'Contrase&ntildea',
+                    name:'password',
+                    minLength:8,
+                    allowBlank:false 
+                }
+            ] 
+        }
+    ],
+    dockedItems:[
+        {
+                xtype:'toolbar',
+                dock:'bottom',
+				buttonAlign:'center',
+                items:[
+					'->',
+                    {
+                        xtype:'button',
+                        text:'Ingresar',
+						glyph:'xf00c@FontAwesome',
+                        itemId:'btn-login'
+                    }
+                ]
+        }
+    ]
+    
+})
+
+var w = Ext.create('Estratificacion.view.Login');
+	
+});
+	</script>
+	
+	
+</html>
+
