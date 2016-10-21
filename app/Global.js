@@ -5,6 +5,7 @@ Ext.define("Estratificacion.Global", {
 	constructor: function(config) {	
 		var self = this;
 		self.initConfig(config);
+		self.config.sessionToken = self.setValueFromCookie('token');
 		self.config.id = self.setValueFromCookie('loggedUserId');
 		self.config.usuario= self.setValueFromCookie('loggedUserName');
 		self.config.nombre= self.setValueFromCookie('loggedUserNameName');
@@ -89,12 +90,11 @@ Ext.define("Estratificacion.Global", {
 	getUserName: function() {
 		return Global.config['nombre'] + ' ' + Global.config['apellido'];
 	},
+	getToken:function(){
+		return Global.config['sessionToken'];
+	},
 	isAdmin: function() {
-		var admin = Global.config['administrar'];
-		if (admin === true) {
-			return true;
-		}
-		return false;
+		return Global.config['administrar'];
 	}
 
 

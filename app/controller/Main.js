@@ -76,8 +76,15 @@ Ext.define('Estratificacion.controller.Main', {
 
 	crearFormLado: function() {
 
-		var vLado = Ext.create('Estratificacion.view.window.CrearLado');
-		return vLado;
+		var form = Ext.ComponentQuery.query('#win-consultalado')[0];
+
+		if(!form){
+			var form = Ext.create('Estratificacion.view.window.CrearLado');
+			form.show();
+		}
+		else if(form && !form.isVisible()){
+			form.show();
+		}	
 	},
 
 	crearFormBuscarTerreno: function() {

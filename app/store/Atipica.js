@@ -7,18 +7,11 @@ Ext.define('Estratificacion.store.Atipica', {
 	proxy: {
 
 		type: 'ajax',
-		api: {
-			read: 'php/listados/ListaAtipicas.php',
-			destroy: 'php/listados/BorraAtipicas.php'
-		},
+		url: Global.config['restUrl'] + 'atipicas',
+		startParam:'offset',
 		reader: {
 			type: 'json',
 			root: 'data'
-		},
-		writer: {
-			type: 'json',
-			root: 'data',
-			encode: true
 		}
 	}
 });

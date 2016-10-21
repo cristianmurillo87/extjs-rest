@@ -29,7 +29,8 @@ Ext.define('Estratificacion.view.window.CrearLado', {
 	extend: 'Ext.window.Window',
 	title: 'Crear/ Editar Lado de Manzana',
 	alias: 'widget.formventana',
-	modal: true,
+	modal: false,
+	itemId:'win-consultalado',
 	layout: 'fit',
 	id: 'formventana',
 	border: false,
@@ -44,7 +45,6 @@ Ext.define('Estratificacion.view.window.CrearLado', {
 		border: false,
 		width: 400,
 		bodyStyle: 'background:rgb(248,248,248);',
-		//	bodyPadding:1,
 		items: [{
 				xtype: 'fieldset',
 				layout: 'hbox',
@@ -75,75 +75,52 @@ Ext.define('Estratificacion.view.window.CrearLado', {
 											msg: 'Buscando lado de manzana...'
 										});
 										mascara.show();
+							//start request
+										$.ajax({
+											url:Global.config['restUrl'] + 'lados/'+ this.value.toUpperCase(),
+											type:'GET',
+											data:{"token": Global.getToken()},
+											dataType:'json',
+											success:function(data, status, jqXHR){
+												var features = data.data.features;
+												var properties = {};
+												
+												for(var i = 0; i < features.length; i++){
+													properties = features[i].properties;													
+												}
+												
+												Ext.ComponentQuery.query('#fl_via')[0].setValue(properties.fl_via);
+												Ext.ComponentQuery.query('#fl_foco')[0].setValue(properties.fl_foco);
+												Ext.ComponentQuery.query('#fl_anden')[0].setValue(properties.fl_anden);
+												Ext.ComponentQuery.query('#fl_antejar')[0].setValue(properties.fl_antejar);
+												Ext.ComponentQuery.query('#fl_garaje')[0].setValue(properties.fl_garaje);
+												Ext.ComponentQuery.query('#fl_fachada')[0].setValue(properties.fl_fachada);
+												Ext.ComponentQuery.query('#fl_puerta')[0].setValue(properties.fl_puerta);
+												Ext.ComponentQuery.query('#fl_zona')[0].setValue(Number(properties.fl_zona));
+												Ext.ComponentQuery.query('#estrato')[0].setValue(properties.estrato);
 
+												mascara.hide();
 
-										Ext.Ajax.request({
-											url: 'php/BuscaLado.php',
-											params: {
-												lado_manz: this.value
 											},
-											success: function(response) {
+											error:function(jqXHR, status, error){
+												Ext.Msg.show({
+													title: 'Mensaje',
+													msg: jqXHR.responseJSON.errors.reason,
+													buttons: Ext.Msg.OK,
+													icon: Ext.Msg.WARNING
+												});
 
+												var combos = Ext.ComponentQuery.query('#ladoForm combobox');
 
-												var data = Ext.JSON.decode(response.responseText);
-
-												if (data.success == 'true') {
-													mascara.hide();
-													Ext.Msg.show({
-														title: 'Aviso',
-														msg: 'El lado de manzana existe. Si contin&uacutea se modificar&aacute la informaci&oacuten asociada. ¿Desea Continuar?',
-														buttonText: {
-															yes: 'Si',
-															no: 'No'
-														},
-														buttons: Ext.Msg.YESNO,
-														icon: Ext.MessageBox.WARNING,
-														fn: function(btn) {
-															if (btn == 'yes') {
-
-																Ext.getCmp('fl_via').setValue(Number(data.data.resultado.fl_via));
-																Ext.getCmp('fl_foco').setValue(Number(data.data.resultado.fl_foco));
-																Ext.getCmp('fl_anden').setValue(Number(data.data.resultado.fl_anden));
-																Ext.getCmp('fl_antejar').setValue(Number(data.data.resultado.fl_antejar));
-																Ext.getCmp('fl_garaje').setValue(Number(data.data.resultado.fl_garaje));
-																Ext.getCmp('fl_fachada').setValue(Number(data.data.resultado.fl_fachada));
-																Ext.getCmp('fl_puerta').setValue(Number(data.data.resultado.fl_puerta));
-																Ext.getCmp('fl_zona').setValue(Number(data.data.resultado.fl_zona));
-																Ext.getCmp('estrato').setValue(Number(data.data.resultado.estrato));
-															} else if (btn == 'no') {
-																var formulario = Ext.getCmp('ladoForm');
-																formulario.getForm().reset();
-															}
-														}
-
-													});
-
-
-												} else if (data.success == 'false') {
-
-													var num_combos = Ext.ComponentQuery.query('#ladoForm combobox');
-
-													for (var i = 0; i < num_combos.length; i++) {
-														num_combos[i].clearValue();
+													for (var i = 0; i < combos.length; i++) {
+														combos[i].clearValue();
 													}
 
 													Ext.ComponentQuery.query('#ladoForm textfield[name=estrato]')[0].reset();
-
 													mascara.hide();
-												}
-											},
-											failure: function(form, action) {
-												mascara.hide();
-												var data = Ext.JSON.decode(response.responseText);
-												Ext.Msg.show({
-													title: 'Error',
-													msg: data.errors.reason,
-													buttons: Ext.Msg.OK,
-													icon: Ext.MessageBox.ERROR
-												});
 											}
 										});
-
+							//end request
 									}
 								}
 
@@ -159,7 +136,7 @@ Ext.define('Estratificacion.view.window.CrearLado', {
 				title: 'Variables',
 				items: [{
 						xtype: 'combobox',
-						id: 'fl_via',
+						itemId: 'fl_via',
 						name: 'fl_via',
 						width: 270,
 						fieldLabel: '1. Tipo de via',
@@ -173,11 +150,12 @@ Ext.define('Estratificacion.view.window.CrearLado', {
 						triggerAction: 'all',
 						labelSeparator: '',
 						anyMatch: true,
-						margin: 7
+						margin: 7,
+						readOnly:true
 					}, {
 						xtype: 'combobox',
 						width: 270,
-						id: 'fl_foco',
+						itemId: 'fl_foco',
 						name: 'fl_foco',
 						fieldLabel: '2. Focos',
 						store: foco,
@@ -189,11 +167,12 @@ Ext.define('Estratificacion.view.window.CrearLado', {
 						triggerAction: 'all',
 						labelSeparator: '',
 						anyMatch: true,
-						margin: 7
+						margin: 7,
+						readOnly:true
 					}, {
 						xtype: 'combobox',
 						width: 280,
-						id: 'fl_anden',
+						itemId: 'fl_anden',
 						name: 'fl_anden',
 						fieldLabel: '3. Anden',
 						store: anden,
@@ -206,11 +185,12 @@ Ext.define('Estratificacion.view.window.CrearLado', {
 						triggerAction: 'all',
 						autoSelect: true,
 						anyMatch: true,
-						margin: 7
+						margin: 7,
+						readOnly:true
 					}, {
 						xtype: 'combobox',
 						width: 280,
-						id: 'fl_antejar',
+						itemId: 'fl_antejar',
 						name: 'fl_antejar',
 						fieldLabel: '4. Antejardin',
 						store: antejardin,
@@ -222,11 +202,12 @@ Ext.define('Estratificacion.view.window.CrearLado', {
 						triggerAction: 'all',
 						labelSeparator: '',
 						anyMatch: true,
-						margin: 7
+						margin: 7,
+						readOnly:true
 					}, {
 						xtype: 'combobox',
 						width: 330,
-						id: 'fl_garaje',
+						itemId: 'fl_garaje',
 						name: 'fl_garaje',
 						fieldLabel: '5. Garaje',
 						store: garaje,
@@ -238,11 +219,12 @@ Ext.define('Estratificacion.view.window.CrearLado', {
 						triggerAction: 'all',
 						labelSeparator: '',
 						anyMatch: true,
-						margin: 7
+						margin: 7,
+						readOnly:true
 					}, {
 						xtype: 'combobox',
 						width: 330,
-						id: 'fl_fachada',
+						itemId: 'fl_fachada',
 						name: 'fl_fachada',
 						fieldLabel: '6. Fachada',
 						store: fachada,
@@ -254,11 +236,12 @@ Ext.define('Estratificacion.view.window.CrearLado', {
 						triggerAction: 'all',
 						labelSeparator: '',
 						anyMatch: true,
-						margin: 7
+						margin: 7,
+						readOnly:true
 					}, {
 						xtype: 'combobox',
 						width: 330,
-						id: 'fl_puerta',
+						itemId: 'fl_puerta',
 						name: 'fl_puerta',
 						fieldLabel: '7. Puerta principal',
 						store: puerta,
@@ -270,11 +253,12 @@ Ext.define('Estratificacion.view.window.CrearLado', {
 						labelSeparator: '',
 						triggerAction: 'all',
 						anyMatch: true,
-						margin: 7
+						margin: 7,
+						readOnly:true
 					}, {
 						xtype: 'combobox',
 						width: 150,
-						id: 'fl_zona',
+						itemId: 'fl_zona',
 						name: 'fl_zona',
 						labelSeparator: '',
 						fieldLabel: '8. Zona',
@@ -285,13 +269,13 @@ Ext.define('Estratificacion.view.window.CrearLado', {
 						forceSelection: true,
 						allowBlank: false,
 						triggerAction: 'all',
-						hideTrigger: true,
 						anyMatch: true,
-						margin: 7
+						margin: 7,
+						readOnly:true
 					}, {
 						xtype: 'textfield',
 						width: 150,
-						id: 'estrato',
+						itemId: 'estrato',
 						labelSeparator: '',
 						fieldLabel: 'Estrato',
 						name: 'estrato',
@@ -299,7 +283,8 @@ Ext.define('Estratificacion.view.window.CrearLado', {
 						enforceMaxLength: true,
 						allowBlank: false,
 						vtype: 'estrato',
-						margin: 7 /*'5 10 10 100'*/
+						margin: 7,
+						readOnly:true
 					}
 
 				]
@@ -314,15 +299,12 @@ Ext.define('Estratificacion.view.window.CrearLado', {
 
 	buttons: [{
 			xtype: 'button',
-			text: 'Guardar',
-			itemId: 'btn-guardalado'
-		}, {
-			xtype: 'button',
-			text: 'Cancelar',
-			itemId: 'cancela'
-		}
-
-	],
+			text: 'Aceptar',
+			handler:function(){
+				this.up('window').getEl().fadeOut({duration:250, remove:true, useDisplay:false});
+			}
+			//itemId: 'btn-guardalado'
+		}],
 	buttonAlign: 'center',
 	autoShow: true,
 	resizable: false

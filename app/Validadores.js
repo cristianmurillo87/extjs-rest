@@ -34,12 +34,9 @@
 			estratoText: 'Estrato Socioeconomico: Unicamente se admiten valores de 0 a 6'
 		});
 
-
-
 		Ext.apply(Ext.form.field.VTypes, {
 			zona: function(val) {
-				return /([0-1]){1}([0-9]){1}/.
-				test(val);
+				return (val <= 11).test(val);
 			},
 			zonaText: 'Unicamente se admiten valores de 0 a 10'
 		});

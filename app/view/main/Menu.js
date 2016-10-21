@@ -4,53 +4,35 @@ Ext.define('Estratificacion.view.main.Menu', {
 	itemId: 'menuppal',
 	//disabledCls:'x-item-enabled',
 	items: [{
-			text: 'CAPTURA DE INFORMACI&OacuteN',
+			text: 'CONSULTAS',
 			plain: true,
 			itemId: 'menu-data-capture',
 			cls: 'x-btn-default-small',
 			menu: [{
-				text: 'Crear/ Editar Lado de Manzana',
-				itemId: 'op-agregalado'
-			}, {
-				text: 'Crear/ Editar Atipicidad',
-				itemId: 'op-agregatipica'
-			}]
-		}, {
-			text: 'MODIFICACIONES',
-			itemId: 'menu-updates',
-			plain: true,
-			menu: [{
-				text: 'Editar Informaci&oacuten de Terreno',
-				itemId: 'op-modificaterreno'
-			}, {
-				text: 'Eliminar Lado de Manzana',
-				itemId: 'op-eliminalado'
-			}, {
-				text: 'Eliminar Atipicidad',
-				itemId: 'op-eliminatipica'
-			}]
-		}, {
+					text: 'Consultar Predio',
+					itemId: 'op-consultapredio'
+					},{
+					text: 'Consular Lado de Manzana',
+					itemId: 'op-agregalado'
+					},{
+					text: 'Consultar Atipicidad',
+					itemId: 'op-agregatipica'
+				}]
+			},{
 			text: 'REPORTES',
 			plain: true,
 			itemId: 'menu-reports',
 			menu: [{
 				text: 'Listado de Lados de Manzana',
-				itemId: 'op-listalados',
-				disabled: false
+				itemId: 'op-listalados'
 			}, {
 				text: 'Listado de Predios',
-				itemId: 'op-listaterrenos',
-				disabled: false
+				itemId: 'op-listaterrenos'
 			}, {
 				text: 'Listado de Atipicidades',
-				itemId: 'op-listaatipicas',
-				disabled: false
-			}, {
-				text: 'Consultar Predio',
-				itemId: 'op-consultapredio',
-				disabled: false
+				itemId: 'op-listaatipicas'
 			}]
-		}, {
+			},{
 			text: 'ESTADISTICAS',
 			plain: true,
 			itemId: 'menu-statistics',
@@ -82,21 +64,12 @@ Ext.define('Estratificacion.view.main.Menu', {
 	listeners: {
 		beforerender: function(eOpts) {
 			var username = Ext.ComponentQuery.query('#menu-user-option')[0];
-			var agregalado = Ext.ComponentQuery.query('#op-agregalado')[0];
-			var agregatipica = Ext.ComponentQuery.query('#op-agregatipica')[0];
-			var modificaterreno = Ext.ComponentQuery.query('#op-modificaterreno')[0];
-			var eliminalado = Ext.ComponentQuery.query('#op-eliminalado')[0];
-			var eliminatipica = Ext.ComponentQuery.query('#op-eliminatipica')[0];
-
 			var loggedUser = Global.setValueFromCookie('loggedUserNameName') + " " + Global.setValueFromCookie('loggedUserNameLastName');
-
-			agregatipica.disabled = !Global.isAdmin();
-			agregalado.disabled = !Global.isAdmin();
-			modificaterreno.disabled = !Global.isAdmin();
-			eliminalado.disabled = !Global.isAdmin();
-			eliminatipica.disabled = !Global.isAdmin();
 			username.text = loggedUser;
 
+			Ext.ComponentQuery.query('#op-consultapredio')[0].disabled = !Global.isAdmin();
+			Ext.ComponentQuery.query('#op-agregalado')[0].disabled = !Global.isAdmin();
+			Ext.ComponentQuery.query('#op-agregatipica')[0].disabled = !Global.isAdmin();
 		}
 	}
 

@@ -37,6 +37,10 @@ Ext.define('Estratificacion.store.Zona', {
 	}, {
 		id: 10,
 		fl_zona: 10
+	},
+	{
+		id: 11,
+		fl_zona: 11
 	}],
 	autoLoad: true
 });

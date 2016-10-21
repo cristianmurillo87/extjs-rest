@@ -92,7 +92,7 @@ Ext.define('Estratificacion.Application', {
 		token = Global.setValueFromCookie('token');
 
 
-		Ext.widget(loggedIn != "" && token!= "" ? 'main' : 'login');
+		Ext.widget(loggedIn && token ? 'main' : 'login');
 
 	}
 

@@ -46,87 +46,38 @@ var properties = Ext.create('Ext.grid.property.Grid', { //property grid en la qu
 });
 
 var infoPredio = function(field) { // obtiene informacion de los elementos del tree y los despliega en el property grid
+	
+	properties.setSource({"":""});
 	var terreno = field.value;
-	var elemento = "Terreno";
-	var tamano = terreno.length;
 
-	Ext.Ajax.request({
-		url: 'php/property.php',
-		params: {
-			elemento: elemento,
-			valor: terreno,
-			size: tamano
-		},
-		success: function(response) {
+	var keys = ["gid", "cod_predio", "num_predia", "cod_pred_n", "direccion", "cod_act", "cod_manzan", "lado_manz", "estrato", "tipo_atip"];
+	var values = ["ID", "Cod. Terreno", "Cod. Predial", "Cod. Nacional",  "Direccion", "Actividad", "Manzana","Lado", "Estrato", "Atipico"];
+	var propiedades ={};
 
-			var data = Ext.JSON.decode(response.responseText);
-			var propiedades;
+	$.ajax({
+		url:Global.config['restUrl'] + 'terrenos/'+ terreno.toUpperCase(),
+		type:'GET',
+		data:{"token":Global.getToken()},
+		dataType:'json',
+		success:function(data, status, jqXHR){
+			var features = data.data.features[0];
+			propiedades = features.properties;
+			propiedades = JSON.stringify(propiedades);
 
-			if (data.success == "true") {
-
-				switch (tamano) {
-
-					case 13:
-						propiedades = {
-							"Id": data.data[0].gid,
-							"Cod. Terreno": data.data[0].cod_predio,
-							"Cod. Nacional": data.data[0].cod_pred_n,
-							"Cod. Predial": data.data[0].num_predia,
-							"Lado": data.data[0].lado_manz,
-							"Direccion": data.data[0].direccion,
-							"Actividad": data.data[0].cod_act,
-							"Estrato": data.data[0].estrato,
-							"Atipico": data.data[0].tipo_atip
-						};
-
-						break;
-
-					case 14:
-						propiedades = {
-							"Id": data.data[0].gid,
-							"Cod. Terreno": data.data[0].cod_predio,
-							"Cod. Nacional": data.data[0].cod_pred_n,
-							"Cod. Predial": data.data[0].num_predia,
-							"Lado": data.data[0].lado_manz,
-							"Direccion": data.data[0].direccion,
-							"Actividad": data.data[0].cod_act,
-							"Estrato": data.data[0].estrato,
-							"Atipico": data.data[0].tipo_atip
-						};
-
-						break;
-
-					case 30:
-						propiedades = {
-							"Id": data.data[0].gid,
-							"Cod. Terreno": data.data[0].cod_predio,
-							"Cod. Nacional": data.data[0].cod_pred_n,
-							"Cod. Predial": data.data[0].num_predia,
-							"Lado": data.data[0].lado_manz,
-							"Direccion": data.data[0].direccion,
-							"Actividad": data.data[0].cod_act,
-							"Estrato": data.data[0].estrato,
-							"Atipico": data.data[0].tipo_atip
-						};
-
-						break;
-
-					default:
-						propiedades = {
-							"": ""
-						};
-				}
-
-				properties.setSource(propiedades);
-
-
-
-
+			for(var i =0; i < keys.length; i++){
+				propiedades = propiedades.replace(keys[i], values[i]);
 			}
 
-		}
-	});
+			propiedades = JSON.parse(propiedades);
+			properties.setSource(propiedades);
 
+		},
+		error:function(jqXHR, status, error){
+			properties.setSource({"Resultado": jqXHR.responseJSON.errors.reason});
+
+		}
+
+	});
 };
 
 
