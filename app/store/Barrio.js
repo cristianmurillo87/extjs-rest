@@ -5,11 +5,18 @@ Ext.define('Estratificacion.store.Barrio', {
 	autoLoad: false,
 	proxy: {
 
-		type: 'ajax',
-		url: 'php/buscar/BuscaBarrio.php',
+		type: 'rest',
+		url:Global.getRestUrl() + 'barrios',
+		pageParam:	undefined,
+		startParam:	undefined,
+		limitParam: undefined,
+		extraParams:{
+			token: Global.getToken()
+		},
+		noCache: false,
 		reader: {
 			type: 'json',
-			root: 'barrio'
+			root: 'data'
 		}
 	}
 });

@@ -3,12 +3,17 @@ Ext.define('Estratificacion.store.Atipica', {
 	model: 'Estratificacion.model.Atipica',
 	fields: ['gid', 'lado_manz', 'cod_predio', 'direccion', 'tipo_atip', 'estrato', 'justificacion'],
 	pageSize: 200,
-	autoLoad: false,
+	autoLoad: true,
 	proxy: {
 
-		type: 'ajax',
-		url: Global.config['restUrl'] + 'atipicas',
+		type: 'rest',
+		url:Global.getRestUrl() + 'atipicas',
+		pageParam:	undefined,
 		startParam:'offset',
+		extraParams:{
+			token: Global.getToken()
+		},
+		noCache: false,
 		reader: {
 			type: 'json',
 			root: 'data'

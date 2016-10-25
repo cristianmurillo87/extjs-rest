@@ -91,7 +91,13 @@ Ext.define("Estratificacion.Global", {
 		return Global.config['nombre'] + ' ' + Global.config['apellido'];
 	},
 	getToken:function(){
+		if(Global.config['sessionToken']==''){
+			return Global.setValueFromCookie('token');
+		}
 		return Global.config['sessionToken'];
+	},
+	getRestUrl:function(){
+		return Global.config['restUrl'];
 	},
 	isAdmin: function() {
 		return Global.config['administrar'];

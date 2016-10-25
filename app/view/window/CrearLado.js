@@ -296,12 +296,18 @@ Ext.define('Estratificacion.view.window.CrearLado', {
 		]
 
 	}],
+	listeners:{
+		beforeremove:function(){
+			this.up('window').getEl().fadeOut({duration:300, remove:true, useDisplay:false});
+		}
+	},
 
 	buttons: [{
 			xtype: 'button',
 			text: 'Aceptar',
 			handler:function(){
-				this.up('window').getEl().fadeOut({duration:250, remove:true, useDisplay:false});
+				this.up('window').getEl().fadeOut({duration:300, remove:true, useDisplay:false});
+				this.up('window').close();
 			}
 			//itemId: 'btn-guardalado'
 		}],

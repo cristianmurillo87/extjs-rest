@@ -840,7 +840,7 @@ var buscapredio = {
 	xtype: 'textfield',
 	id: 'tab-buscar-buscapredio',
 	itemId: 'tab-buscar-buscapredio',
-	name: 'cod_predio',
+	name: 'terrenos',
 	width: 200,
 	emptyText: 'Escriba el codigo del predio',
 	padding: '6',
@@ -866,7 +866,7 @@ var buscalado = {
 	id: 'tab-buscar-buscalado',
 	itemId: 'tab-buscar-buscalado',
 	padding: '6',
-	name: 'lado_manz',
+	name: 'lados',
 	minLength: 9,
 	maxLength: 9,
 	enforceMaxLength: true,
@@ -890,7 +890,7 @@ var buscamanzana = {
 	xtype: 'textfield',
 	id: 'tab-buscar-buscamanzana',
 	itemId: 'tab-buscar-buscamanzana',
-	name: 'cod_manzana',
+	name: 'manzanas',
 	width: 200,
 	emptyText: 'Escriba el codigo de la manzana',
 	padding: '6',
@@ -917,8 +917,12 @@ var barriostore = Ext.create('Estratificacion.store.Barrio');
 var buscabarrio = {
 	xtype: 'combobox',
 	id: 'tab-buscar-buscabarrio',
-	name: 'cod_barrio',
-	store: barriostore,
+	name: 'barrios',
+	store: Ext.create('Estratificacion.store.Comuna',{
+		proxy:{
+			extraParams:{id:this.value}
+		}
+	}),
 	queryMode: 'remote',
 	displayField: 'nombre',
 	valueField: 'cod_barrio',
@@ -945,7 +949,7 @@ var buscabarrio = {
 var buscacomuna = {
 	xtype: 'combobox',
 	id: 'tab-buscar-buscacomuna',
-	name: 'cod_comuna',
+	name: 'comunas',
 	store: comunastore,
 	queryMode: 'remote',
 	displayField: 'nombre',
@@ -995,67 +999,32 @@ var pbuscar = Ext.create('Ext.panel.Panel', {
 
 
 var selectFeature = function(field, e) {
-	//if (e.getKey()==e.ENTER && field.isValid()){
-	OpenLayers.Request.POST({
-
-		url: 'php/geometrias/geometria.php',
-		params: {
-			codigo: field.value,
-			campo: field.name
-		},
-		success: function(response) {
-
-			field.setValue("");
-
-			var json = new OpenLayers.Format.JSON();
-			var wkt = new OpenLayers.Format.WKT();
-
-			var data = Ext.JSON.decode(response.responseText);
-
-			if (data.success == 'true') {
-
-				if (data.geometria.length > 0) {
-					resultLayer.removeAllFeatures();
-					var geometria = wkt.read(data.geometria[0].wkt);
-					resultLayer.addFeatures(geometria);
-					var extent = resultLayer.getDataExtent();
-					mapa.zoomToExtent(extent);
-
-				} else {
-					Ext.Msg.show({
-						title: 'Aviso',
-						msg: 'Ubicaci&oacuten no disponible',
-						buttons: Ext.Msg.OK,
-						icon: Ext.MessageBox.WARNING
-					});
-					field.setValue("");
-
-				}
-			} else if (data.geometria.lenght == 'false') {
-
+	
+		$.ajax({
+			url: Global.config['restUrl'] + field.name + '/' + field.value,
+			type:'GET',
+			dataType:'json',
+			data:{"token": Global.getToken()},
+			success:function(data, status, jqXHR){
+				
+				var featureCollection = data.data;
+				var geojson = new OpenLayers.Format.GeoJSON();
+								
+				resultLayer.removeAllFeatures();
+				resultLayer.addFeatures(geojson.read(featureCollection));
+				var extent = resultLayer.getDataExtent();
+				mapa.zoomToExtent(extent);
+			},
+			error:function(jqXHR, status, error){
 				Ext.Msg.show({
-					title: 'Aviso',
-					msg: 'Ubicaci&oacuten no disponible',
+					title: 'Error',
+					msg: jqXHR.responseJSON.errors.reason,
 					buttons: Ext.Msg.OK,
-					icon: Ext.MessageBox.WARNING
+					icon: Ext.Msg.ERROR
 				});
-				field.setValue("");
 			}
-		},
-		failure: function(response) {
-
-			Ext.Msg.show({
-				title: 'Error',
-				msg: 'No fue posible llevar a cabo la operaci&oacuten',
-				buttons: Ext.Msg.OK,
-				icon: Ext.MessageBox.ERROR
-			});
-			field.setValue("");
-
-
-		}
 	});
-	//	}
+
 };
 //fin del panel de busquedas
 
@@ -1075,7 +1044,7 @@ var property = Ext.create('Ext.grid.property.Grid', { //property grid en la que 
 	}
 });
 
-var buscaStore = Ext.create('Ext.data.Store', { // definir las opcciones para el combobox
+var buscaStore = Ext.create('Ext.data.Store', { // definir las opciones para el combobox
 	model: 'Estratificacion.model.Busca',
 	fields: ['elemento', 'nombre'],
 	data: [{

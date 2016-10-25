@@ -6,21 +6,20 @@ Ext.define('Estratificacion.store.Terreno', {
 	model: 'Estratificacion.model.Terreno',
 	fields: ['gid', 'cod_predio', 'cod_manzana', 'actividad', 'direccion', 'lado_manz'],
 	pageSize: 200,
-	autoLoad: false,
+	autoLoad: true,
 	proxy: {
 
-		type: 'ajax',
-		api: {
-			read: 'php/listados/ListaTerrenos.php'
+		type: 'rest',
+		url:Global.getRestUrl() + 'terrenos',
+		pageParam:	undefined,
+		startParam:'offset',
+		extraParams:{
+			token: Global.getToken()
 		},
+		noCache: false,
 		reader: {
 			type: 'json',
 			root: 'data'
-		},
-		writer: {
-			type: 'json',
-			root: 'data',
-			encode: true
 		}
 	}
 });

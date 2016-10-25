@@ -16,8 +16,23 @@ Ext.define('Estratificacion.controller.user.Sesion', {
 		});
 	},
 	cerraSesion: function(btn, e, eOpts) {
-		Global.deleteCookies();
-		self.location = 'index.html';
+//start request
+			$.ajax({
+				url:Global.config['restUrl'] + 'logout',
+				type:'GET',
+				data:{"token": Global.getToken()},
+				dataType:'json',
+				success:function(data, status, jqXHR){
+					Global.deleteCookies();
+					self.location = 'index.html';
+				},
+				error:function(jqXHR, status, error){
+					Global.deleteCookies();
+					self.location = 'index.html';
+				}
+			});
+//end request
+		
 
 	},
 	abrirCambiaClave: function(btn, e, eOpts) {

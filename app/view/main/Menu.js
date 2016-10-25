@@ -4,7 +4,7 @@ Ext.define('Estratificacion.view.main.Menu', {
 	itemId: 'menuppal',
 	//disabledCls:'x-item-enabled',
 	items: [{
-			text: 'CONSULTAS',
+			text: '<i class="fa fa-search" aria-hidden="true"></i>&nbsp;&nbsp;CONSULTAS',
 			plain: true,
 			itemId: 'menu-data-capture',
 			cls: 'x-btn-default-small',
@@ -18,8 +18,8 @@ Ext.define('Estratificacion.view.main.Menu', {
 					text: 'Consultar Atipicidad',
 					itemId: 'op-agregatipica'
 				}]
-			},{
-			text: 'REPORTES',
+			},,{
+			text: '<i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;LISTADOS',
 			plain: true,
 			itemId: 'menu-reports',
 			menu: [{
@@ -32,34 +32,19 @@ Ext.define('Estratificacion.view.main.Menu', {
 				text: 'Listado de Atipicidades',
 				itemId: 'op-listaatipicas'
 			}]
-			},{
-			text: 'ESTADISTICAS',
-			plain: true,
-			itemId: 'menu-statistics',
-			menu: [{
-				text: 'Distribuci&oacuten de Estratos',
-				itemId: 'op-distrestato'
-			}, {
-				text: 'Distribuci&oacuten de Estratos por Comuna',
-				itemId: 'op-distrcomuna'
-			}, {
-				text: 'Distribuci&oacuten de Estratos por Barrio',
-				disabled: true
-			}]
-		},
-		'->', 'Logueado como:', {
-			text: "",
-			plain: true,
-			itemId: 'menu-user-option',
-			menu: [{
-				text: 'Cambiar Contrase&ntildea',
-				itemId: 'op-cambiaclave'
-			}, {
-				text: 'Salir',
-				itemId: 'op-cerrasesion'
-			}]
-		}, '', ''
-
+			},
+			'->', 'Logueado como:', {
+				text: "",
+				plain: true,
+				itemId: 'menu-user-option',
+				menu: [{
+					text: 'Cambiar Contrase&ntildea',
+					itemId: 'op-cambiaclave'
+				}, {
+					text: 'Salir',
+					itemId: 'op-cerrasesion'
+				}]
+			}, '', ''
 	],
 	listeners: {
 		beforerender: function(eOpts) {
