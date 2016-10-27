@@ -98,6 +98,7 @@ Ext.define('Estratificacion.view.user.Login', {
 							success:function(data, status, jqXHR){
 								document.cookie = "token=" + data.token;
 								getUser(data.token);
+								Global.set('sessionToken', data.token);
 
 
 							},

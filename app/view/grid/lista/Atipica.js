@@ -3,7 +3,7 @@ Ext.define('Estratificacion.view.grid.lista.Atipica', {
 	alias: 'widget.listadoatipicasgrid',
 
 	border: false,
-	store: 'Estratificacion.store.Atipica',
+	store: Ext.create('Estratificacion.store.Atipica'),
 	columns: [{
 			text: "Id",
 			dataIndex: 'gid',

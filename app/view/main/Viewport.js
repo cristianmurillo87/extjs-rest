@@ -918,12 +918,8 @@ var buscabarrio = {
 	xtype: 'combobox',
 	id: 'tab-buscar-buscabarrio',
 	name: 'barrios',
-	store: Ext.create('Estratificacion.store.Comuna',{
-		proxy:{
-			extraParams:{id:this.value}
-		}
-	}),
-	queryMode: 'remote',
+	store: Ext.create('Ext.data.Store',{ model: 'Estratificacion.model.Barrio'}),
+	queryMode: 'local',
 	displayField: 'nombre',
 	valueField: 'cod_barrio',
 	forceSelection: true,
@@ -931,14 +927,36 @@ var buscabarrio = {
 	minChars: 3,
 	allowBlank: false,
 	typeAhead: true,
-	hideTrigger: true,
+	hideTrigger: false,
+	enableKeyEvents: true,
 	width: 200,
 	padding: '6',
 	emptyText: 'Nombre o codigo del barrio',
 	listeners: {
+		keyup: {
+			fn: function (combo, e, eOpts){
+				if (combo.getValue().length >= 3){
+					$.ajax({
+						url: Global.config['restUrl'] + 'barrios',
+						type: 'GET',
+						dataType: 'json',
+						data:{"token": Global.getToken(), "id": combo.getValue()},
+						success: function (data, status, jqXHR){
+							combo.getStore().removeAll();
+							//console.log(data.data);
+							combo.getStore().loadData(data.data);
+						},
+						error: function (jqXHR, status, error){
+							combo.getStore().removeAll();
+						}
+					});
+				}
+			}
+		},
 		select: {
 			fn: function(combo, record) {
 				selectFeature(combo, record);
+				combo.getStore().removeAll();
 			}
 		}
 	}
@@ -996,6 +1014,25 @@ var pbuscar = Ext.create('Ext.panel.Panel', {
 	}]
 });
 
+var fillCombo = function(field, value){
+	var opts = [];
+	$.ajax({
+		url: Global.config['restUrl'] + field,
+		type: 'GET',
+		dataType: 'json',
+		data:{"token": Global.getToken(), "id": value},
+		success: function (data, status, jqXHR){
+			//console.log(data.data);
+			opts = data.data;
+			
+		},
+		error:function(jqXHR, status, error){
+			opts = [{}];
+		}
+	});
+
+	return opts;
+};
 
 
 var selectFeature = function(field, e) {
@@ -1014,6 +1051,7 @@ var selectFeature = function(field, e) {
 				resultLayer.addFeatures(geojson.read(featureCollection));
 				var extent = resultLayer.getDataExtent();
 				mapa.zoomToExtent(extent);
+				field.reset();
 			},
 			error:function(jqXHR, status, error){
 				Ext.Msg.show({

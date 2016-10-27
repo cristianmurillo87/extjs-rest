@@ -6,7 +6,7 @@ Ext.define('Estratificacion.store.Terreno', {
 	model: 'Estratificacion.model.Terreno',
 	fields: ['gid', 'cod_predio', 'cod_manzana', 'actividad', 'direccion', 'lado_manz'],
 	pageSize: 200,
-	autoLoad: true,
+	autoLoad: false,
 	proxy: {
 
 		type: 'rest',
