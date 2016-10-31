@@ -69,20 +69,22 @@ Ext.define('Estratificacion.view.user.Login', {
 									document.cookie ="canLoggedUserQuery=" + data.user.roles.consultar;
 									document.cookie ="isLoggedUserAUser=" + data.user.roles.ver;
 
+									Global.set('usuario', data.user.usuario);
+									Global.set('nombre', data.user.nombre);
+									Global.set('apellido', data.user.apellido);
+									Global.set('id', data.user.id);							
+									Global.set('administrar', data.user.roles.administrar);
+									Global.set('consultar', data.user.roles.consultar);
+									Global.set('ver', data.user.roles.ver);
+
 									w.getEl().fadeOut({
 										duration: 250,
 										remove: false,
 										useDisplay: false,
 										callback: function() {
-											Global.set('usuario', data.user.usuario);
-											Global.set('nombre', data.user.nombre);
-											Global.set('apellido', data.user.apellido);
-											Global.set('id', data.user.id);							
-											Global.set('administrar', data.user.roles.administrar);
-											Global.set('consultar', data.user.roles.consultar);
-											Global.set('ver', data.user.roles.ver);
+											
 											w.close();
-											Ext.create('Estratificacion.view.main.Viewport');
+											window.location = 'index.html';
 										}
 									});
 
@@ -97,8 +99,10 @@ Ext.define('Estratificacion.view.user.Login', {
 							data:{"usuario":vals.usuario, "password": vals.password},
 							success:function(data, status, jqXHR){
 								document.cookie = "token=" + data.token;
-								getUser(data.token);
 								Global.set('sessionToken', data.token);
+								getUser(data.token);
+								
+								
 
 
 							},

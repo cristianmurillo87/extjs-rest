@@ -1,6 +1,7 @@
 /**
  * @author Cristian Murillo
  */
+
 Ext.define('Estratificacion.store.Lado', {
 	extend: 'Ext.data.Store',
 	model: 'Estratificacion.model.Lado',

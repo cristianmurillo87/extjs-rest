@@ -1,11 +1,10 @@
-Ext.define("Estratificacion.Global", {
+Ext.define('Estratificacion.Global', {
 
 	singleton: true,
 	alternateClassName: ['Global'],
 	constructor: function(config) {	
 		var self = this;
-		self.initConfig(config);
-		//self.config.sessionToken = self.setValueFromCookie('token');
+		self.config.sessionToken = self.setValueFromCookie('token');
 		self.config.id = self.setValueFromCookie('loggedUserId');
 		self.config.usuario= self.setValueFromCookie('loggedUserName');
 		self.config.nombre= self.setValueFromCookie('loggedUserNameName');
@@ -13,6 +12,7 @@ Ext.define("Estratificacion.Global", {
 		self.config.administrar= self.setValueFromCookie('isLoggedUserAdmin');
 		self.config.consultar= self.setValueFromCookie('canLoggedUserQuery');
 		self.config.ver= self.setValueFromCookie('isLoggedUserAUser');
+		self.initConfig(config);
 		
 	},
 	config: {
@@ -41,7 +41,7 @@ Ext.define("Estratificacion.Global", {
 		unselect: 'xf248'
 	},
 	setValueFromCookie:function(cookie){
-	    var name = cookie + "=";
+	    var name = cookie + '=';
     	var ca = document.cookie.split(';');
     	for(var i = 0; i < ca.length; i++) {
         	var c = ca[i];
@@ -52,10 +52,10 @@ Ext.define("Estratificacion.Global", {
 				return c.substring(name.length, c.length);
 			}	
     	}
-    	return "";
+    	return '';
 	},
 	setCookie:function(cookie, value){
-		document.cookie = cookie + "=" + value;
+		document.cookie = cookie + '=' + value;
 	},
 	deleteCookies: function(){
 		var cookies = document.cookie.split(';');
@@ -91,9 +91,6 @@ Ext.define("Estratificacion.Global", {
 		return Global.config['nombre'] + ' ' + Global.config['apellido'];
 	},
 	getToken:function(){
-		if(Global.config['sessionToken'] == ''){
-			return Global.setValueFromCookie('token');
-		}
 		return Global.config['sessionToken'];
 	},
 	getRestUrl:function(){

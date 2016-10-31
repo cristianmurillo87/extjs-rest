@@ -3,13 +3,21 @@ Ext.define('Estratificacion.store.Comuna', {
 	model: 'Estratificacion.model.Comuna',
 	fields: ['cod_comuna', 'nombre'],
 	autoLoad: false,
+	autoLoad: false,
 	proxy: {
 
-		type: 'ajax',
-		url: 'php/buscar/BuscaComuna.php',
+		type: 'rest',
+		url:Global.getRestUrl() + 'comunas',
+		pageParam:	undefined,
+		startParam:	undefined,
+		limitParam: undefined,
+		extraParams:{
+			token: Global.getToken()
+		},
+		noCache: false,
 		reader: {
 			type: 'json',
-			root: 'comuna'
+			root: 'data'
 		}
 	}
 });

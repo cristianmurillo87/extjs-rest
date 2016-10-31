@@ -910,16 +910,17 @@ var buscamanzana = {
 };
 
 //stores para comuna y barrio
-var comunastore = Ext.create('Estratificacion.store.Comuna');
-var barriostore = Ext.create('Estratificacion.store.Barrio');
+
+
 
 
 var buscabarrio = {
 	xtype: 'combobox',
 	id: 'tab-buscar-buscabarrio',
 	name: 'barrios',
-	store: Ext.create('Ext.data.Store',{ model: 'Estratificacion.model.Barrio'}),
-	queryMode: 'local',
+	store: Ext.create('Estratificacion.store.Barrio'),
+	queryParam:'id',
+	queryMode: 'remote',
 	displayField: 'nombre',
 	valueField: 'cod_barrio',
 	forceSelection: true,
@@ -927,48 +928,27 @@ var buscabarrio = {
 	minChars: 3,
 	allowBlank: false,
 	typeAhead: true,
-	hideTrigger: false,
+	hideTrigger: true,
 	enableKeyEvents: true,
 	width: 200,
 	padding: '6',
 	emptyText: 'Nombre o codigo del barrio',
 	listeners: {
-		keyup: {
-			fn: function (combo, e, eOpts){
-				if (combo.getValue().length >= 3){
-					$.ajax({
-						url: Global.config['restUrl'] + 'barrios',
-						type: 'GET',
-						dataType: 'json',
-						data:{"token": Global.getToken(), "id": combo.getValue()},
-						success: function (data, status, jqXHR){
-							combo.getStore().removeAll();
-							//console.log(data.data);
-							combo.getStore().loadData(data.data);
-						},
-						error: function (jqXHR, status, error){
-							combo.getStore().removeAll();
-						}
-					});
+			select: {
+				fn: function(combo, record) {
+					selectFeature(combo, record);
+					combo.getStore().removeAll();
 				}
 			}
-		},
-		select: {
-			fn: function(combo, record) {
-				selectFeature(combo, record);
-				combo.getStore().removeAll();
-			}
 		}
-	}
-
-
-};
+	};
 
 var buscacomuna = {
 	xtype: 'combobox',
 	id: 'tab-buscar-buscacomuna',
 	name: 'comunas',
-	store: comunastore,
+	store: Ext.create('Estratificacion.store.Comuna'),
+	queryParam:'id',
 	queryMode: 'remote',
 	displayField: 'nombre',
 	valueField: 'cod_comuna',
